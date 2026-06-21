@@ -63,6 +63,7 @@ export const CarbonTwin: React.FC = () => {
   // Twin states loaded from backend
   const [twinData, setTwinData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Voice Assistant states
   const [voiceQuery, setVoiceQuery] = useState('');
@@ -72,6 +73,7 @@ export const CarbonTwin: React.FC = () => {
   // Call backend API on simulator changes
   const fetchTwinData = async () => {
     try {
+      setError(null);
       const endpoint = '/api/ai/carbon-twin';
       const token = localStorage.getItem('carbonmind_token');
       
@@ -91,10 +93,15 @@ export const CarbonTwin: React.FC = () => {
         const data = await response.json();
         if (data.success) {
           setTwinData(data);
+        } else {
+          throw new Error(data.message || "Failed to generate twin projections");
         }
+      } else {
+        throw new Error("Server returned an error status");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to load Carbon Twin projections:", err);
+      setError(err.message || "Connection to AI Twin failed");
     } finally {
       setLoading(false);
     }
@@ -147,11 +154,29 @@ export const CarbonTwin: React.FC = () => {
     }, 1200);
   };
 
-  if (loading || !twinData) {
+  if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[500px]">
         <RefreshCw className="h-10 w-10 text-primary-500 animate-spin mb-4" />
         <p className="text-sm font-bold text-slate-500">Syncing Carbon Twin profile model...</p>
+      </div>
+    );
+  }
+
+  if (error || !twinData) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[500px] text-center p-6 space-y-4 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl max-w-md mx-auto my-12 shadow-md">
+        <div className="h-16 w-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center text-2xl">⚠️</div>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Carbon Twin Connection Failed</h3>
+        <p className="text-xs text-slate-450 leading-relaxed">
+          {error || "Could not synchronize projections from the server. Please verify your backend server connection."}
+        </p>
+        <button 
+          onClick={() => { setLoading(true); fetchTwinData(); }}
+          className="px-4 py-2 bg-emerald-500 text-white rounded-xl text-xs font-bold hover:bg-emerald-600 transition-colors"
+        >
+          Try Syncing Again
+        </button>
       </div>
     );
   }
