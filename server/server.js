@@ -18,8 +18,22 @@ const PORT = process.env.PORT || 5000;
 
 // Security Middlewares
 app.use(helmetMiddleware);
+// CORS Settings with dynamic support for localhost and Vercel subdomains
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const allowed = [
+      process.env.CLIENT_URL,
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173'
+    ].filter(Boolean);
+    if (allowed.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 
@@ -33,6 +47,15 @@ app.use('/api/', apiLimiter);
 // Mount API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/ai', aiRoutes);
+
+// Root Welcome Endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'CarbonMind AI Backend API Active',
+    health: 'healthy',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Test Endpoint
 app.get('/health', (req, res) => {
