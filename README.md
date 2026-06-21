@@ -176,6 +176,8 @@ CarbonMind AI is built in the **Climate Tech and Carbon Accounting** vertical. I
   - This allows the mock scanner fallback engine to select and return the exact matching mock template, solving inaccuracies for custom file uploads.
 - **Double-Ring Heatmap Representation**: On the Leaflet map layer, sustainability hotspots are rendered as double-ring overlays (a wider faint glow ring at `1200m` radius and a dense hot core ring at `500m` radius). Standard location pins remain fully visible alongside the heat rings.
 - **Nature Profile Picture Selector**: A dedicated grid component inside the Edit Profile Details modal provides nature-themed avatar options split into tabbed categories (**Animals**, **Birds**, and **Trees**). The selector updates `photoURL` globally through the React `AuthContext` provider and persists details in `localStorage`.
+- **Vercel SPA Client Rewrites**: Added a root [vercel.json](file:///c:/Users/ASUS/CarbonMind%20AI/vercel.json) configuration redirecting all incoming non-API client routes back to `/index.html`. This corrects fallback `404: NOT_FOUND` errors when directly loading subpaths (e.g. `/twin`) on live Vercel deployments.
+- **Carbon Twin Sync Failure Resilience**: Patched the [CarbonTwin.tsx](file:///c:/Users/ASUS/CarbonMind%20AI/src/pages/CarbonTwin.tsx) view to prevent endless loading spinner hangs during backend synchronizing failures. It now renders a dedicated recovery card featuring clear diagnostic details and a retry trigger.
 
 ### 3. Modular Security Middleware Architecture
 To bolster server security, inline configurations have been moved to dedicated modules under `server/middlewares/`:
