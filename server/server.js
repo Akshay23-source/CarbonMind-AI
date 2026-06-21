@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import compression from 'compression';
+import crypto from 'crypto';
 
 // Import Security Middlewares
 import { helmetMiddleware } from './middlewares/helmet.js';
@@ -13,8 +15,28 @@ import aiRoutes from './routes/aiRoutes.js';
 
 dotenv.config();
 
+// Startup Environment Validator
+const required = ["GEMINI_API_KEY"];
+required.forEach((env) => {
+  if (!process.env[env]) {
+    console.warn(`${env} missing`);
+  }
+});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Hide Express fingerprinting
+app.disable('x-powered-by');
+
+// Request compression
+app.use(compression());
+
+// Request tracing ID middleware
+app.use((req, res, next) => {
+  req.requestId = crypto.randomUUID();
+  next();
+});
 
 // Security Middlewares
 app.use(helmetMiddleware);
@@ -70,8 +92,15 @@ app.get('/health', (req, res) => {
 app.use((err, req, res, next) => {
   console.error('Express Error Boundary caught:', err);
   const status = err.statusCode || 500;
+  if (status === 500) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error'
+    });
+  }
   res.status(status).json({
-    error: err.message || 'Internal Server Error',
+    success: false,
+    message: err.message || 'Error occurred',
     stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 });
