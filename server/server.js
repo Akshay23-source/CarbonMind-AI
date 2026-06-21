@@ -25,8 +25,10 @@ app.use(cors({
     const allowed = [
       process.env.CLIENT_URL,
       'http://localhost:3000',
+      'http://localhost:3001',
       'http://localhost:5173',
       'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001',
       'http://127.0.0.1:5173'
     ].filter(Boolean);
     if (allowed.includes(origin) || origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) {
@@ -34,7 +36,9 @@ app.use(cors({
     }
     callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // Body Parsers & Sanitizers
