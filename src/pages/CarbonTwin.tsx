@@ -199,7 +199,7 @@ export const CarbonTwin: React.FC = () => {
   const CHART_COLORS = ['#10b981', '#64748b'];
 
   return (
-    <div className="w-full max-w-7xl mx-auto font-sans text-slate-800 dark:text-slate-200">
+    <main className="w-full max-w-7xl mx-auto font-sans text-slate-800 dark:text-slate-200">
       
       {/* Premium Glass Header banner */}
       <div className="relative mb-8 rounded-3xl overflow-hidden bg-gradient-to-r from-teal-500/20 to-sky-500/10 dark:from-teal-950/40 dark:to-sky-950/20 p-8 border border-teal-500/10 dark:border-teal-500/5 shadow-xl">
@@ -423,6 +423,8 @@ export const CarbonTwin: React.FC = () => {
                 <button
                   key={item.key}
                   onClick={() => handleToggleSimulation(item.key as any)}
+                  aria-label={`Simulate: ${item.label}`}
+                  aria-pressed={(simulationInputs as any)[item.key]}
                   className={`w-full text-left p-3.5 rounded-2xl border text-xs flex justify-between items-start transition-all active:scale-98 ${
                     (simulationInputs as any)[item.key]
                       ? 'border-primary-500 bg-primary-500/5 text-primary-950 dark:text-primary-300'
@@ -562,6 +564,7 @@ export const CarbonTwin: React.FC = () => {
                   key={i}
                   disabled={isAnswering}
                   onClick={() => handleVoiceQuery(q)}
+                  aria-label={`Ask twin advisor: ${q}`}
                   className="w-full text-left px-3.5 py-2.5 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 text-xs font-semibold text-slate-700 dark:text-slate-350 hover:bg-white hover:border-teal-500 transition-all flex items-center justify-between"
                 >
                   <span>{q}</span>
@@ -687,7 +690,7 @@ export const CarbonTwin: React.FC = () => {
 
       </div>
 
-    </div>
+    </main>
   );
 };
 
