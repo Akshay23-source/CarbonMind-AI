@@ -364,7 +364,7 @@ export const MealAnalyzer: React.FC = () => {
   });
 
   return (
-    <div className="w-full max-w-7xl mx-auto font-sans text-slate-800 dark:text-slate-200">
+    <main className="w-full max-w-7xl mx-auto font-sans text-slate-800 dark:text-slate-200">
       
       {/* Premium Glass Banner */}
       <div className="relative mb-8 rounded-3xl overflow-hidden bg-gradient-to-r from-indigo-500/20 to-purple-500/10 dark:from-indigo-950/40 dark:to-purple-950/20 p-8 border border-indigo-500/10 dark:border-indigo-500/5 shadow-xl">
@@ -423,7 +423,7 @@ export const MealAnalyzer: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Left panel: Input Area */}
-          <div className="lg:col-span-1 space-y-6">
+          <section className="lg:col-span-1 space-y-6" aria-label="Meal Input Panel">
             
             {/* Snap & drag photo widget */}
             <div className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-3xl p-6 shadow-xs">
@@ -474,7 +474,7 @@ export const MealAnalyzer: React.FC = () => {
               </div>
 
               {scanError && (
-                <div className="mt-4 p-3 bg-rose-500/10 border border-rose-500/10 text-rose-600 dark:text-rose-400 text-xs rounded-xl flex gap-2 items-center">
+                <div role="alert" aria-live="polite" className="mt-4 p-3 bg-rose-500/10 border border-rose-500/10 text-rose-600 dark:text-rose-400 text-xs rounded-xl flex gap-2 items-center">
                   <AlertCircle className="h-4 w-4 shrink-0" />
                   <span>{scanError}</span>
                 </div>
@@ -492,12 +492,14 @@ export const MealAnalyzer: React.FC = () => {
                 onChange={(e) => setTextInput(e.target.value)}
                 placeholder="Example: 'I had two idlis with vegetable sambar for breakfast.'"
                 rows={3}
+                aria-label="Describe meal in text"
                 className="w-full p-4 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-850/50 text-xs font-semibold placeholder-slate-400 focus:outline-hidden focus:border-indigo-500 resize-none"
               />
 
               <button
                 disabled={isScanning || (!textInput.trim() && !previewUrl)}
                 onClick={() => runAnalysis()}
+                aria-label="Run AI Food Analysis"
                 className="w-full mt-4 py-3.5 px-4 rounded-xl font-bold text-sm bg-indigo-500 text-white hover:bg-indigo-650 active:scale-97 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
               >
                 {isScanning ? (
@@ -529,6 +531,7 @@ export const MealAnalyzer: React.FC = () => {
                     key={idx}
                     disabled={isScanning}
                     onClick={() => runAnalysis(preset.key)}
+                    aria-label={`Analyze preset: ${preset.name}`}
                     className="w-full text-left p-3.5 rounded-xl border border-slate-100 hover:border-indigo-400 dark:border-zinc-800 dark:hover:border-indigo-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-white dark:hover:bg-zinc-900 active:scale-98 transition-all flex items-center justify-between"
                   >
                     <div>
@@ -559,6 +562,7 @@ export const MealAnalyzer: React.FC = () => {
                     key={i}
                     disabled={isAnswering}
                     onClick={() => handleVoiceQuery(q)}
+                    aria-label={`Ask coach: ${q}`}
                     className="w-full text-left px-3.5 py-2.5 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-slate-100 dark:border-zinc-800/80 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-white hover:border-indigo-400 transition-all flex items-center justify-between"
                   >
                     <span>{q}</span>
@@ -579,10 +583,10 @@ export const MealAnalyzer: React.FC = () => {
               )}
             </div>
 
-          </div>
+          </section>
 
           {/* Right panel: Analysis Output */}
-          <div className="lg:col-span-2 space-y-6">
+          <section className="lg:col-span-2 space-y-6" aria-label="Meal Analysis Report">
             
             {/* Laser Scanning loading card */}
             {isScanning && (
@@ -613,6 +617,8 @@ export const MealAnalyzer: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   className="space-y-6"
+                  role="region"
+                  aria-label="Scan Results Report"
                 >
                   
                   {/* Large Meal Card header */}
@@ -767,6 +773,7 @@ export const MealAnalyzer: React.FC = () => {
                             };
                             setSelectedReplacement(defaults[e.target.value] || 'Plant alternative');
                           }}
+                          aria-label="Select ingredient to swap"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold focus:outline-hidden"
                         >
                           <option value="Beef Patty">Beef Patty (Cheeseburger patty)</option>
@@ -789,9 +796,9 @@ export const MealAnalyzer: React.FC = () => {
                       <div>
                         <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Portions count</label>
                         <div className="flex gap-2 items-center">
-                          <button onClick={() => setSwapRatio(Math.max(1, swapRatio - 1))} className="h-10 w-10 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl font-black text-sm active:scale-90">-</button>
+                          <button onClick={() => setSwapRatio(Math.max(1, swapRatio - 1))} aria-label="Decrease portions count" className="h-10 w-10 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl font-black text-sm active:scale-90">-</button>
                           <span className="text-sm font-bold w-6 text-center">{swapRatio}</span>
-                          <button onClick={() => setSwapRatio(swapRatio + 1)} className="h-10 w-10 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl font-black text-sm active:scale-90">+</button>
+                          <button onClick={() => setSwapRatio(swapRatio + 1)} aria-label="Increase portions count" className="h-10 w-10 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl font-black text-sm active:scale-90">+</button>
                         </div>
                       </div>
                     </div>
@@ -878,7 +885,7 @@ export const MealAnalyzer: React.FC = () => {
               )}
             </AnimatePresence>
 
-          </div>
+          </section>
         </div>
       )}
 
@@ -1167,7 +1174,7 @@ export const MealAnalyzer: React.FC = () => {
         </div>
       )}
 
-    </div>
+    </main>
   );
 };
 

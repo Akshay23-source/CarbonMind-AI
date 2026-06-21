@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
 import dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit';
 import path from 'path';
+
+// Import Security Middlewares
+import { helmetMiddleware } from './middlewares/helmet.js';
+import { apiLimiter } from './middlewares/rateLimiter.js';
 
 // Import Routes
 import authRoutes from './routes/authRoutes.js';
@@ -15,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Security Middlewares
-app.use(helmet());
+app.use(helmetMiddleware);
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:3000',
   credentials: true
@@ -26,14 +28,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Rate Limiting (DDoS prevention)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per window
-  message: { error: 'Too many requests from this IP, please try again after 15 minutes' },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use('/api/', limiter);
+app.use('/api/', apiLimiter);
 
 // Mount API Routes
 app.use('/api/auth', authRoutes);

@@ -1,15 +1,5 @@
-import { body, validationResult } from 'express-validator';
-
-/**
- * Handle Validation Errors Middleware
- */
-export const validateFields = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  next();
-};
+import { body } from 'express-validator';
+import { validateFields } from '../middlewares/validation.js';
 
 /**
  * Registration Input Validation Rules

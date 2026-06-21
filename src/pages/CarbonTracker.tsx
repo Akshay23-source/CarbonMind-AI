@@ -199,7 +199,7 @@ export const CarbonTracker: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 text-left animate-in fade-in duration-300 font-sans">
+    <main className="space-y-8 text-left animate-in fade-in duration-300 font-sans">
       <SectionHeader
         title="AI Carbon Scanner"
         description="Type naturally or record your voice to analyze carbon emissions, earn XP, and unlock green rewards."
@@ -208,7 +208,7 @@ export const CarbonTracker: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* LEFT COLUMN: Input bar & Scanned result */}
-        <div className="lg:col-span-2 space-y-6">
+        <section className="lg:col-span-2 space-y-6" aria-label="Carbon Scan Input and Analysis Details">
           <Card variant="glass" className="p-6 relative overflow-hidden">
             {/* Input Form */}
             <div className="space-y-4">
@@ -217,7 +217,7 @@ export const CarbonTracker: React.FC = () => {
               </label>
 
               {error && (
-                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-655 dark:text-red-400 rounded-xl text-xs flex gap-2 animate-pulse">
+                <div role="alert" aria-live="polite" className="p-3 bg-red-500/10 border border-red-500/20 text-red-655 dark:text-red-400 rounded-xl text-xs flex gap-2 animate-pulse">
                   <AlertTriangle className="h-4.5 w-4.5 shrink-0" />
                   <span>{error}</span>
                 </div>
@@ -230,6 +230,7 @@ export const CarbonTracker: React.FC = () => {
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleScan(query)}
                   placeholder='e.g., "I rode my bicycle for 10 kilometers today."'
+                  aria-label="Describe green action or carbon footprint source"
                   className="w-full pl-4 pr-24 py-3.5 bg-slate-50/50 dark:bg-zinc-900 border border-slate-150 dark:border-zinc-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 text-sm text-slate-850 dark:text-slate-200"
                 />
 
@@ -237,6 +238,7 @@ export const CarbonTracker: React.FC = () => {
                   {/* Microphone */}
                   <button
                     onClick={handleVoiceInput}
+                    aria-label={isRecording ? "Stop recording voice input" : "Record voice input"}
                     className={`p-2 rounded-xl transition-all ${
                       isRecording
                         ? 'bg-red-500 text-white animate-ping'
@@ -270,6 +272,7 @@ export const CarbonTracker: React.FC = () => {
                   <button
                     key={idx}
                     onClick={() => handleScan(fav)}
+                    aria-label={`Log template activity: ${fav}`}
                     className="px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 text-xs font-semibold text-slate-550 dark:text-zinc-400 hover:border-primary-500/30 hover:text-slate-700 dark:hover:text-slate-200 transition-colors flex items-center gap-1"
                   >
                     <span>{fav}</span>
@@ -282,7 +285,7 @@ export const CarbonTracker: React.FC = () => {
           {/* DYNAMIC SCANNED RESULT visualizer */}
           <AnimatePresence mode="wait">
             {loading && (
-              <Card variant="glass" className="p-12 flex flex-col items-center justify-center text-center space-y-4">
+              <Card variant="glass" role="status" aria-live="polite" className="p-12 flex flex-col items-center justify-center text-center space-y-4">
                 <div className="relative flex items-center justify-center h-20 w-20">
                   <div className="absolute inset-0 rounded-full border-4 border-t-primary-500 border-r-transparent border-b-primary-200 border-l-transparent animate-spin" />
                   <Sparkles className="h-8 w-8 text-primary-500 animate-pulse" />
@@ -302,6 +305,8 @@ export const CarbonTracker: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 className="space-y-6"
+                role="region"
+                aria-label="Scan Results Details"
               >
                 {/* Result Summary Card */}
                 <Card
@@ -338,11 +343,17 @@ export const CarbonTracker: React.FC = () => {
                         variant="glass"
                         size="sm"
                         onClick={() => toggleFavorite(scannedResult.queryText)}
+                        aria-label={userFavorites.includes(scannedResult.queryText) ? "Remove action from favorites" : "Add action to favorites"}
                         className="p-2 border-slate-150 dark:border-zinc-800"
                       >
                         <Star className={`h-4.5 w-4.5 ${userFavorites.includes(scannedResult.queryText) ? 'fill-amber-500 text-amber-500' : 'text-slate-400'}`} />
                       </Button>
-                      <Button variant="glass" size="sm" className="p-2 border-slate-150 dark:border-zinc-800">
+                      <Button 
+                        variant="glass" 
+                        size="sm" 
+                        aria-label="Share carbon impact report"
+                        className="p-2 border-slate-150 dark:border-zinc-800"
+                      >
                         <Share2 className="h-4.5 w-4.5 text-slate-400" />
                       </Button>
                     </div>
@@ -409,7 +420,7 @@ export const CarbonTracker: React.FC = () => {
                     <Sparkles className="h-4.5 w-4.5 text-emerald-500 animate-pulse" />
                     AI Alternatives Suggestions
                   </h4>
-                  <p className="text-xs text-slate-450 dark:text-zinc-450 leading-relaxed font-sans mb-4">
+                  <p className="text-xs text-slate-450 dark:text-zinc-455 leading-relaxed font-sans mb-4">
                     {scannedResult.recommendation}
                   </p>
                   {scannedResult.metrics.carbonSaved === 0 && (
@@ -422,10 +433,10 @@ export const CarbonTracker: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </section>
 
         {/* RIGHT COLUMN: Scanners history logging timeline list */}
-        <div className="space-y-6">
+        <section className="space-y-6" aria-label="Activity Filters and History Logs">
           <Card variant="glass" className="p-5 space-y-4">
             <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 font-sans">
               <Calendar className="h-4.5 w-4.5 text-primary-500" />
@@ -525,10 +536,10 @@ export const CarbonTracker: React.FC = () => {
               )}
             </div>
           </Card>
-        </div>
+        </section>
 
       </div>
-    </div>
+    </main>
   );
 };
 export default CarbonTracker;
