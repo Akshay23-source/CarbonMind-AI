@@ -65,6 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
       {/* Sidebar Drawer Container */}
       <aside
+        aria-label="Sidebar Navigation"
         className={`fixed top-0 bottom-0 left-0 z-45 w-64 border-r border-slate-100 dark:border-zinc-900 bg-white dark:bg-darkBg pt-20 transition-transform duration-300 md:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
@@ -72,11 +73,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         {/* Close Button Mobile */}
         <button
           onClick={onClose}
+          aria-label="Close sidebar"
           className="absolute top-4 right-4 p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-zinc-800 md:hidden"
         >
           <X className="h-5 w-5" />
         </button>
-
+ 
         {/* User Card */}
         {user && (
           <div className="mx-4 my-4 p-4 rounded-2xl glass-card bg-slate-50/50 dark:bg-zinc-900/30 flex items-center gap-3">
@@ -93,9 +95,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
         )}
-
+ 
         {/* Navigation list */}
-        <nav className="px-3 py-2 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
+        <nav aria-label="Sidebar Menu" className="px-3 py-2 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
           {navItems.map((item) => (
             <NavLink
               key={item.name}

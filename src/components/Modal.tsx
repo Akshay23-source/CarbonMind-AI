@@ -61,6 +61,9 @@ export const Modal: React.FC<ModalProps> = ({
 
           {/* Modal Content */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -69,7 +72,7 @@ export const Modal: React.FC<ModalProps> = ({
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-zinc-900">
-              <h3 className="font-sans font-semibold text-lg text-slate-900 dark:text-slate-100">
+              <h3 id="modal-title" className="font-sans font-semibold text-lg text-slate-900 dark:text-slate-100">
                 {title}
               </h3>
               <Button
@@ -77,6 +80,7 @@ export const Modal: React.FC<ModalProps> = ({
                 size="sm"
                 className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
                 onClick={onClose}
+                aria-label="Close dialog"
               >
                 <X className="h-5 w-5" />
               </Button>

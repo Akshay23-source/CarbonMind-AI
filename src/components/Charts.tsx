@@ -61,97 +61,105 @@ interface CommonChartProps {
 // 1. LINE CHART
 export const EcoLineChart: React.FC<CommonChartProps> = ({ data, dataKey = 'value', color = COLORS.emerald }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-        <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Line
-          type="monotone"
-          dataKey={dataKey}
-          stroke={color}
-          strokeWidth={3}
-          dot={{ r: 4, strokeWidth: 1 }}
-          activeDot={{ r: 6, strokeWidth: 0 }}
-          animationDuration={1500}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label="Line chart showing sustainability performance metrics" className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
+          <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <Tooltip content={<CustomTooltip />} />
+          <Line
+            type="monotone"
+            dataKey={dataKey}
+            stroke={color}
+            strokeWidth={3}
+            dot={{ r: 4, strokeWidth: 1 }}
+            activeDot={{ r: 6, strokeWidth: 0 }}
+            animationDuration={1500}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
 // 2. AREA CHART
 export const EcoAreaChart: React.FC<CommonChartProps> = ({ data, dataKey = 'value', color = COLORS.oceanBlue }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-        <defs>
-          <linearGradient id="areaColor" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="5%" stopColor={color} stopOpacity={0.3} />
-            <stop offset="95%" stopColor={color} stopOpacity={0.0} />
-          </linearGradient>
-        </defs>
-        <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Area
-          type="monotone"
-          dataKey={dataKey}
-          stroke={color}
-          strokeWidth={2.5}
-          fillOpacity={1}
-          fill="url(#areaColor)"
-          animationDuration={1500}
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label="Area chart showing cumulative carbon offsets" className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
+          <defs>
+            <linearGradient id="areaColor" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="5%" stopColor={color} stopOpacity={0.3} />
+              <stop offset="95%" stopColor={color} stopOpacity={0.0} />
+            </linearGradient>
+          </defs>
+          <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <Tooltip content={<CustomTooltip />} />
+          <Area
+            type="monotone"
+            dataKey={dataKey}
+            stroke={color}
+            strokeWidth={2.5}
+            fillOpacity={1}
+            fill="url(#areaColor)"
+            animationDuration={1500}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
 // 3. BAR CHART
 export const EcoBarChart: React.FC<CommonChartProps> = ({ data, dataKey = 'value', color = COLORS.emerald }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
-        <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Bar dataKey={dataKey} fill={color} radius={[6, 6, 0, 0]} maxBarSize={36} animationDuration={1200} />
-      </BarChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label="Bar chart comparing weekly footprint metrics" className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 5 }}>
+          <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar dataKey={dataKey} fill={color} radius={[6, 6, 0, 0]} maxBarSize={36} animationDuration={1200} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
 // 4. PIE CHART
 export const EcoPieChart: React.FC<{ data: { name: string; value: number }[] }> = ({ data }) => {
   const pieColors = [COLORS.emerald, COLORS.oceanBlue, COLORS.amber, COLORS.indigo, COLORS.rose];
-
+ 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-        <Pie
-          data={data}
-          cx="50%"
-          cy="45%"
-          innerRadius={65}
-          outerRadius={85}
-          paddingAngle={4}
-          dataKey="value"
-          animationDuration={1200}
-        >
-          {data.map((_, index) => (
-            <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
-          ))}
-        </Pie>
-        <Tooltip content={<CustomTooltip />} />
-        <Legend
-          verticalAlign="bottom"
-          iconSize={10}
-          iconType="circle"
-          wrapperStyle={{ fontSize: '11px', fontFamily: 'sans-serif' }}
-        />
-      </PieChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label="Pie chart displaying carbon category distributions" className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="45%"
+            innerRadius={65}
+            outerRadius={85}
+            paddingAngle={4}
+            dataKey="value"
+            animationDuration={1200}
+          >
+            {data.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+            ))}
+          </Pie>
+          <Tooltip content={<CustomTooltip />} />
+          <Legend
+            verticalAlign="bottom"
+            iconSize={10}
+            iconType="circle"
+            wrapperStyle={{ fontSize: '11px', fontFamily: 'sans-serif' }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
@@ -166,9 +174,16 @@ export const EcoProgressChart: React.FC<{ value: number; max: number; label?: st
     { name: 'Consumed', value: value, fill: percentage > 85 ? COLORS.rose : COLORS.emerald },
     { name: 'Remaining', value: Math.max(0, max - value), fill: '#e2e8f0' } // grey background fill
   ];
-
+ 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full font-sans relative">
+    <div
+      role="progressbar"
+      aria-valuenow={percentage}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={label}
+      className="flex flex-col items-center justify-center h-full w-full font-sans relative"
+    >
       <ResponsiveContainer width="100%" height="90%">
         <PieChart>
           <Pie
@@ -195,33 +210,35 @@ export const EcoProgressChart: React.FC<{ value: number; max: number; label?: st
 // 6. PREDICTION CHART
 export const EcoPredictionChart: React.FC<{ data: any[] }> = ({ data }) => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data} margin={{ top: 10, right: 15, left: -20, bottom: 5 }}>
-        <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
-        <Tooltip content={<CustomTooltip />} />
-        <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: '11px', fontFamily: 'sans-serif' }} />
-        {/* Actual values */}
-        <Line
-          type="monotone"
-          name="Actual Footprint"
-          dataKey="actual"
-          stroke={COLORS.oceanBlue}
-          strokeWidth={3}
-          dot={{ r: 4 }}
-          activeDot={{ r: 6 }}
-        />
-        {/* Predicted values */}
-        <Line
-          type="monotone"
-          name="AI Trend Prediction"
-          dataKey="predicted"
-          stroke={COLORS.indigo}
-          strokeDasharray="5 5"
-          strokeWidth={2.5}
-          dot={{ r: 3 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div role="img" aria-label="Line chart comparing historical actual footprint against AI predicted values" className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 10, right: 15, left: -20, bottom: 5 }}>
+          <XAxis dataKey="name" stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <YAxis stroke="#94a3b8" fontSize={10} tickLine={false} axisLine={false} />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: '11px', fontFamily: 'sans-serif' }} />
+          {/* Actual values */}
+          <Line
+            type="monotone"
+            name="Actual Footprint"
+            dataKey="actual"
+            stroke={COLORS.oceanBlue}
+            strokeWidth={3}
+            dot={{ r: 4 }}
+            activeDot={{ r: 6 }}
+          />
+          {/* Predicted values */}
+          <Line
+            type="monotone"
+            name="AI Trend Prediction"
+            dataKey="predicted"
+            stroke={COLORS.indigo}
+            strokeDasharray="5 5"
+            strokeWidth={2.5}
+            dot={{ r: 3 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 };

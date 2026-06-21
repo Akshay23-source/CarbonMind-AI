@@ -23,18 +23,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 border-b border-slate-100 dark:border-zinc-900 bg-white/70 dark:bg-darkBg/75 backdrop-blur-md transition-colors duration-300">
+      {/* Skip to Content Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 font-sans text-sm font-semibold"
+      >
+        Skip to main content
+      </a>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {/* Mobile Sidebar Trigger */}
           {user && onToggleSidebar && (
             <button
               onClick={onToggleSidebar}
+              aria-label="Toggle navigation sidebar"
               className="md:hidden p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors"
             >
               <Menu className="h-5 w-5" />
             </button>
           )}
-
+ 
           <Link to="/" className="flex items-center gap-2 group">
             <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 text-white shadow-premium">
               <Leaf className="h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
@@ -44,22 +53,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
             </span>
           </Link>
         </div>
-
+ 
         {/* Action Controls */}
         <div className="flex items-center gap-4">
           {/* Light/Dark Toggle */}
           <button
             onClick={toggleTheme}
             className="p-2.5 rounded-xl border border-slate-100 dark:border-zinc-850 hover:bg-slate-50 dark:hover:bg-zinc-900 text-slate-500 dark:text-zinc-400 transition-all hover:scale-105 duration-200"
-            aria-label="Toggle Theme"
+            aria-label="Switch between light and dark mode"
           >
             {theme === 'dark' ? <Sun className="h-4.5 w-4.5 text-amber-500" /> : <Moon className="h-4.5 w-4.5" />}
           </button>
-
+ 
           {user ? (
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
+                aria-label="Open user profile menu"
                 className="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-850 transition-colors focus:outline-none"
               >
                 <Avatar
