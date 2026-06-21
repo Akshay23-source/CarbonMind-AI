@@ -35,7 +35,7 @@ export interface OCRScanResult {
 }
 
 class AIService {
-  private apiBase = '/api/ai';
+  private apiBase = 'https://carbonmind-ai-951u.onrender.com/api/ai';
 
   /**
    * AI Coach Chat - Initiates interactive coaching sessions with Gemini
