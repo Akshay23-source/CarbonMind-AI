@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import {
   Upload,
   FileText,
@@ -122,7 +123,7 @@ export const ReceiptScanner: React.FC = () => {
     setScanResult(null);
 
     try {
-      const endpoint = '/api/ai/scan-receipt';
+      const endpoint = `${API_BASE}/api/ai/scan-receipt`;
       const token = localStorage.getItem('carbonmind_token');
       
       let payload: any = {};

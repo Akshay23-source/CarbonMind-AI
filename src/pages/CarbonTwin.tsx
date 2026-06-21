@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import {
   Globe,
   Sparkles,
@@ -74,7 +75,7 @@ export const CarbonTwin: React.FC = () => {
   const fetchTwinData = async () => {
     try {
       setError(null);
-      const endpoint = '/api/ai/carbon-twin';
+      const endpoint = `${API_BASE}/api/ai/carbon-twin`;
       const token = localStorage.getItem('carbonmind_token');
       
       const response = await fetch(endpoint, {

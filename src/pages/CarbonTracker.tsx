@@ -22,6 +22,7 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
@@ -92,7 +93,7 @@ export const CarbonTracker: React.FC = () => {
 
     try {
       const token = localStorage.getItem('carbonmind_token');
-      const response = await fetch('/api/ai/scan', {
+      const response = await fetch(`${API_BASE}/api/ai/scan`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

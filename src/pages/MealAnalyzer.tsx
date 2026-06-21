@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import {
   Upload,
   Camera,
@@ -127,7 +128,7 @@ export const MealAnalyzer: React.FC = () => {
     setScanResult(null);
 
     try {
-      const endpoint = '/api/ai/analyze-meal';
+      const endpoint = `${API_BASE}/api/ai/analyze-meal`;
       const token = localStorage.getItem('carbonmind_token');
       
       let payload: any = {};

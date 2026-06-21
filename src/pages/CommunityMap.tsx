@@ -14,6 +14,7 @@ import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
 import { Modal } from '../components/Modal';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import { useTheme } from '../contexts/ThemeContext';
 import { db } from '../services/firebase';
 import { collection, onSnapshot, doc } from 'firebase/firestore';
@@ -338,7 +339,7 @@ export const CommunityMap: React.FC = () => {
         distance: calculateDistance(mapCenter[0], mapCenter[1], l.latitude, l.longitude).toFixed(1) + ' km'
       }));
 
-      const res = await fetch('/api/ai/map-advisor', {
+      const res = await fetch(`${API_BASE}/api/ai/map-advisor`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

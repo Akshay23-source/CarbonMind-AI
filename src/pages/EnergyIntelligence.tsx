@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import {
   Upload,
   Zap,
@@ -311,7 +312,7 @@ export const EnergyIntelligence: React.FC = () => {
     setScanResult(null);
 
     try {
-      const endpoint = '/api/ai/scan-bill';
+      const endpoint = `${API_BASE}/api/ai/scan-bill`;
       const token = localStorage.getItem('carbonmind_token');
 
       // Create payload. If custom image loaded, pass base64

@@ -4,6 +4,7 @@ import { Card } from './Card';
 import { Button } from './Button';
 import { Badge } from './Badge';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import { useNavigate } from 'react-router-dom';
 
 interface BriefingPayload {
@@ -30,7 +31,7 @@ export const CopilotBriefing: React.FC = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem('carbonmind_token');
-        const res = await fetch('/api/ai/copilot/briefing', {
+        const res = await fetch(`${API_BASE}/api/ai/copilot/briefing`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -4,6 +4,7 @@
  * This service defines client-side communication layers targeting backend Gemini API operations.
  * Future functional modules will import these helper methods to handle interactive components.
  */
+import { API_BASE } from '../config/api';
 
 export interface ChatMessage {
   role: 'user' | 'model' | 'system';
@@ -35,7 +36,7 @@ export interface OCRScanResult {
 }
 
 class AIService {
-  private apiBase = 'https://carbonmind-ai-951u.onrender.com/api/ai';
+  private apiBase = `${API_BASE}/api/ai`;
 
   /**
    * AI Coach Chat - Initiates interactive coaching sessions with Gemini

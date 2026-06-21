@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE } from '../config/api';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -218,7 +219,7 @@ export const TravelPlanner: React.FC = () => {
     setPlanResult(null);
 
     try {
-      const endpoint = '/api/ai/plan-trip';
+      const endpoint = `${API_BASE}/api/ai/plan-trip`;
       const token = localStorage.getItem('carbonmind_token');
 
       const response = await fetch(endpoint, {
