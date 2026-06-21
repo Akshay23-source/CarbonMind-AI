@@ -166,7 +166,7 @@ The output assets will compile into `/dist`, optimized for static CDNs and Fireb
 As requested, below are the comprehensive details regarding the vertical, architectural approach, execution logic, and general assumptions:
 
 ### 1. Our Chosen Vertical
-CarbonMind AI is built in the **Climate Tech and Carbon Accounting** vertical. It targets individual lifestyle auditing (commuting, diet, energy consumption) alongside organizational ESG tracking ( Scope 3 aggregate commutes, collegiate department carbon offsets battles). It merges daily routine accounting with gamification (XP levels, coins, and badges) and rewards.
+CarbonMind AI is built in the **Climate Tech and Carbon Accounting** vertical. It targets individual lifestyle auditing (commuting, diet, energy consumption) alongside organizational ESG tracking (Scope 3 aggregate commutes, collegiate department carbon offsets battles). It merges daily routine accounting with gamification (XP levels, coins, and badges) and rewards.
 
 ### 2. Technical Approach & Core Logic
 - **Proxy Loopback Resolution**: Vite's proxy router is explicitly re-routed to target the IPv4 address `http://127.0.0.1:5000` rather than `localhost`. This resolves default DNS resolution timeouts on Windows environments where `localhost` is mapped to IPv6 loopbacks (`::1`) but the Node backend listener is operating on IPv4 interfaces.
@@ -177,15 +177,40 @@ CarbonMind AI is built in the **Climate Tech and Carbon Accounting** vertical. I
 - **Double-Ring Heatmap Representation**: On the Leaflet map layer, sustainability hotspots are rendered as double-ring overlays (a wider faint glow ring at `1200m` radius and a dense hot core ring at `500m` radius). Standard location pins remain fully visible alongside the heat rings.
 - **Nature Profile Picture Selector**: A dedicated grid component inside the Edit Profile Details modal provides nature-themed avatar options split into tabbed categories (**Animals**, **Birds**, and **Trees**). The selector updates `photoURL` globally through the React `AuthContext` provider and persists details in `localStorage`.
 
-### 3. How the Solution Works Under the Hood
+### 3. Modular Security Middleware Architecture
+To bolster server security, inline configurations have been moved to dedicated modules under `server/middlewares/`:
+- **[rateLimiter.js](file:///c:/Users/ASUS/CarbonMind%20AI/server/middlewares/rateLimiter.js)**: Enforces API rate limits of 100 requests per 15 minutes per IP to mitigate DDoS.
+- **[helmet.js](file:///c:/Users/ASUS/CarbonMind%20AI/server/middlewares/helmet.js)**: Configures HTTP security headers globally.
+- **[validation.js](file:///c:/Users/ASUS/CarbonMind%20AI/server/middlewares/validation.js)**: Validates input fields and reports error payloads before executing core controller code.
+
+### 4. Robust Testing Suite (Vitest + React Testing Library)
+We built an offline testing suite utilizing Vitest, jsdom, and React Testing Library:
+- **Configuration ([vitest.config.ts](file:///c:/Users/ASUS/CarbonMind%20AI/vitest.config.ts))**: Set up globals and test runner configurations.
+- **Global setup ([tests/setup.ts](file:///c:/Users/ASUS/CarbonMind%20AI/tests/setup.ts))**: Set up global mocks for browser containers (`localStorage`, `sessionStorage`).
+- **Tests suite components**:
+  - **Component testing**: [Card.test.tsx](file:///c:/Users/ASUS/CarbonMind%20AI/tests/components/Card.test.tsx) validates glassmorphism/default style classes.
+  - **Service testing**: [ai.test.ts](file:///c:/Users/ASUS/CarbonMind%20AI/tests/services/ai.test.ts) tests AIService request validation logic and offline mock triggers.
+  - **Page testing**: [Profile.test.tsx](file:///c:/Users/ASUS/CarbonMind%20AI/tests/pages/Profile.test.tsx) asserts profile state rendering accuracy.
+- **Command to run tests**:
+  ```bash
+  npm run test
+  ```
+
+### 5. Accessibility Upgrades (ARIA & Semantics)
+We systematically updated critical frontend entry-points (e.g., [CarbonTracker.tsx](file:///c:/Users/ASUS/CarbonMind%20AI/src/pages/CarbonTracker.tsx) and [MealAnalyzer.tsx](file:///c:/Users/ASUS/CarbonMind%20AI/src/pages/MealAnalyzer.tsx)) to guarantee modern web accessibility standards:
+- **Semantic HTML5 landmarks**: Replaced generic divisions with `<main>` page tags and categorized layouts with `<section>` labels.
+- **Detailed ARIA definitions**: Assigned `aria-label` attributes to microphone switches, custom selectors, form areas, portion increment/decrement keys, presets, and share buttons.
+- **Aria Live regions**: Configured error alerts and progress status icons to use `aria-live="polite"` and `role="alert"` or `role="status"` properties.
+
+### 6. How the Solution Works Under the Hood
 1. **Auditing**: The user uploads an image (or inputs text) in Meal Analyzer, Receipt Scanner, or Home Energy.
 2. **Parsing**: The frontend wraps the request (injecting the JWT auth header and filename metadata) and calls the proxy route `/api/ai/*`.
 3. **Calculating**: The backend checks for a Gemini key. If online, it calls the Gemini Flash API directly. If offline, the controller selects the matching preset based on filename keywords. The calculations engine computes carbon equivalent weights (CO₂ Kg), water impact (Liters), packaging waste (Grams), and trees equivalent indexes.
 4. **Persisting**: Context updates state and updates `localStorage` logs (e.g., updating user XP levels, coins, carbon forest totals, and history logs).
 
-### 4. General Assumptions Made
+### 7. General Assumptions Made
 - Users upload files with descriptive names (e.g., `biryani.png`) when testing mock scanners in local offline fallback mode.
 - Tailpipe baseline comparisons assume an average petrol commuter vehicle outputting `0.25 kg CO₂` per kilometer.
 - Grid electricity footprints assume standard average emission loads of `0.5 kg CO₂` per kWh of power consumed.
-- sapling growth absorption rate is baseline-coded to absorb `22 kg CO₂` per year.
+- Sapling growth absorption rate is baseline-coded to absorb `22 kg CO₂` per year.
 
