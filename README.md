@@ -1,0 +1,191 @@
+# 🌳 CarbonMind AI — Net-Zero Lifestyle Intelligence OS
+
+CarbonMind AI is an advanced, AI-powered digital sustainability assistant designed to help individuals, universities, and corporations measure, track, and offset their daily carbon footprint in real-time. By utilizing natural language processing (NLP), computer vision OCR, and predictive modeling, CarbonMind AI constructs an interactive **Carbon Twin™** of the user, suggesting real-time alternatives to lower environmental impact.
+
+---
+
+## 🚀 Product Vision & Commercial Value Proposition
+
+Unlike static carbon calculators, CarbonMind AI continuously audits daily habits to incentivize positive behavior through gamification, achievements, and a decentralized Green Rewards marketplace.
+
+### B2B SaaS Corporate & Collegiate Licensing Model (ESG Market)
+- **Target Segments**: Corporations aiming for ESG (Environmental, Social, and Governance) compliance; Universities hosting inter-departmental sustainability drives.
+- **Corporate Dashboards**: Real-time aggregate statistics of employee commuting and dietary offsets to calculate corporate scope-3 emissions savings.
+- **Collegiate Competitions**: Department-level leaderboards tracking carbon reductions, driving sustainable student habits through gamified goals.
+- **Eco-Sponsorships**: Integrations with green providers (public transit passes, solar installations, local organic grocery networks) allowing users to redeem earned **Green Coins** for verified eco-rewards.
+
+---
+
+## 🏛️ Clean Architecture Design
+
+CarbonMind AI splits client interfaces and backend processing to ensure performance scaling and safety:
+
+```mermaid
+graph TD
+  Client[React Frontend / Vite / TS]
+  Server[Express Router API]
+  Gemini[Google Gemini 1.5-Flash]
+  Engine[CarbonEngine / calculations]
+  DB[(Cloud Firestore / Firebase Auth)]
+  
+  Client -->|JWT Auth Token| Server
+  Server -->|Sanitized Prompt| Gemini
+  Server -->|Parsed Categories| Engine
+  Client -->|Direct SDK Writes| DB
+  Engine -->|Calculate Offsets / XP| Server
+  Server -->|Return JSON Metrics| Client
+```
+
+### 1. Client Layer (Vite + TypeScript)
+- **Context State Managers**: Global authentication syncing, theme preferences, and offline alerts ([AuthContext.tsx](src/contexts/AuthContext.tsx)).
+- **GPU Canvas Particle Loops**: Starfield backdrop renders on native 2D canvas containers to preserve 60 FPS transitions ([ExperienceMode.tsx](src/pages/ExperienceMode.tsx)).
+- **Modular Presenters**: Tailwind-styled glassmorphic dashboards utilizing responsive grid breakpoints.
+
+### 2. Service Layer (Express Node.js + Firebase SDK)
+- **Rate-Limiter Middleware**: Limits brute-force endpoints requests.
+- **JWT Authorization**: Protects controller requests using Firebase auth token verifiers.
+- **Prompt Injection Defense**: Cleans input strings to block prompt manipulation.
+- **In-Memory Caching (TTL)**: Caches static AI trends and suggestions to optimize server roundtrips.
+
+---
+
+## 📊 Database Schema Design (Google Firestore)
+
+The data model uses normalized collections and security validations linked to UIDs:
+
+### 1. Users Collection (`/users/{userId}`)
+Stores personal profiles, stats, levels, and badge arrays.
+```json
+{
+  "uid": "usr_abc123",
+  "displayName": "Eco Pioneer",
+  "email": "pioneer@carbonmind.ai",
+  "isOnboarded": true,
+  "ecoScore": 85,
+  "xp": 1250,
+  "level": 12,
+  "greenCoins": 350,
+  "badges": ["cycling_champion", "waste_recycler"]
+}
+```
+
+### 2. Activities Log (`/activities/{activityId}`)
+Stores individual entries mapped to user metrics.
+```json
+{
+  "id": "act_789xyz",
+  "userId": "usr_abc123",
+  "title": "Cycled office commute",
+  "category": "travel",
+  "valueKg": 0,
+  "savedKg": 4.2,
+  "xpEarned": 50,
+  "greenCoinsEarned": 25,
+  "loggedAt": "2026-06-20T05:00:00Z"
+}
+```
+
+### 3. OCR Receipts Collection (`/receipts/{receiptId}`)
+Stores scanned grocery slips parsed via Gemini Vision.
+```json
+{
+  "id": "rec_012tuv",
+  "userId": "usr_abc123",
+  "storeName": "Trader Joe's",
+  "summary": {
+    "totalCarbonKg": 12.8,
+    "totalWaterL": 680,
+    "averageEcoScore": "B"
+  },
+  "extractedItems": [
+    { "name": "Soy Milk", "price": 4.20, "ecoRating": "A" },
+    { "name": "Prime Steak", "price": 18.99, "ecoRating": "F" }
+  ]
+}
+```
+
+---
+
+## 🤖 Gemini AI Prompt Engineering & Protection
+
+AI interactions utilize structured prompts and validation steps:
+
+### JSON Formatting System Instructions
+When scanning activity descriptions, the prompt template constraints force Gemini to output a strict JSON structure without markdown formatting blocks:
+```text
+Analyze the following user logging activity in natural language: "{sanitizedText}".
+Extract and return a strict JSON object with this exact schema:
+{
+  "category": "travel" | "food" | "energy" | "waste" | "water" | "trees",
+  "activityType": "car" | "cycle" | "ev" | "bus" | "vegan" | "ac" | "bottle" | "trees",
+  "quantity": number,
+  "confidence": number,
+  "reasoning": "string",
+  "recommendation": "string"
+}
+```
+
+### Prompt Injection Defense Rules
+The backend controller filters inputs against common prompt injection attempts:
+- Removes systemic command phrases (e.g. `ignore previous instruction`, `override`).
+- Enforces strict character-length limitations.
+- Automatically falls back to a regex heuristic parser if the output JSON parser fails.
+
+---
+
+## 🛠️ Production Deployment Guide
+
+### Local Development Setup
+1. Clone the project workspace.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Initialize the environment configuration (`.env`):
+   ```env
+   PORT=5000
+   NODE_ENV=development
+   GEMINI_API_KEY=your-api-key-here
+   ```
+4. Start frontend and backend servers concurrently:
+   ```bash
+   npm run dev
+   ```
+
+### Production Build & Bundling
+Compile and bundle the production client package using Vite:
+```bash
+npm run build
+```
+The output assets will compile into `/dist`, optimized for static CDNs and Firebase Hosting.
+
+---
+
+## 📖 Solution Overview, Approach, & Assumptions
+
+As requested, below are the comprehensive details regarding the vertical, architectural approach, execution logic, and general assumptions:
+
+### 1. Our Chosen Vertical
+CarbonMind AI is built in the **Climate Tech and Carbon Accounting** vertical. It targets individual lifestyle auditing (commuting, diet, energy consumption) alongside organizational ESG tracking ( Scope 3 aggregate commutes, collegiate department carbon offsets battles). It merges daily routine accounting with gamification (XP levels, coins, and badges) and rewards.
+
+### 2. Technical Approach & Core Logic
+- **Proxy Loopback Resolution**: Vite's proxy router is explicitly re-routed to target the IPv4 address `http://127.0.0.1:5000` rather than `localhost`. This resolves default DNS resolution timeouts on Windows environments where `localhost` is mapped to IPv6 loopbacks (`::1`) but the Node backend listener is operating on IPv4 interfaces.
+- **Smart Fallback Matching (Filename Heuristics)**: When running in local development mode without a valid Google Gemini API Key:
+  - The client interface captures the raw `File` name metadata (e.g., `biryani.jpg`, `tata_power.png`, `target_receipt.jpg`) during image uploads and propagates it under a `fileName` parameter.
+  - The Express backend parses both text queries and the parsed filename for keywords (e.g. `trader`, `whole`, `target`, `tata`, `biryani`, `idli`, `burger`, `coffee`).
+  - This allows the mock scanner fallback engine to select and return the exact matching mock template, solving inaccuracies for custom file uploads.
+- **Double-Ring Heatmap Representation**: On the Leaflet map layer, sustainability hotspots are rendered as double-ring overlays (a wider faint glow ring at `1200m` radius and a dense hot core ring at `500m` radius). Standard location pins remain fully visible alongside the heat rings.
+- **Nature Profile Picture Selector**: A dedicated grid component inside the Edit Profile Details modal provides nature-themed avatar options split into tabbed categories (**Animals**, **Birds**, and **Trees**). The selector updates `photoURL` globally through the React `AuthContext` provider and persists details in `localStorage`.
+
+### 3. How the Solution Works Under the Hood
+1. **Auditing**: The user uploads an image (or inputs text) in Meal Analyzer, Receipt Scanner, or Home Energy.
+2. **Parsing**: The frontend wraps the request (injecting the JWT auth header and filename metadata) and calls the proxy route `/api/ai/*`.
+3. **Calculating**: The backend checks for a Gemini key. If online, it calls the Gemini Flash API directly. If offline, the controller selects the matching preset based on filename keywords. The calculations engine computes carbon equivalent weights (CO₂ Kg), water impact (Liters), packaging waste (Grams), and trees equivalent indexes.
+4. **Persisting**: Context updates state and updates `localStorage` logs (e.g., updating user XP levels, coins, carbon forest totals, and history logs).
+
+### 4. General Assumptions Made
+- Users upload files with descriptive names (e.g., `biryani.png`) when testing mock scanners in local offline fallback mode.
+- Tailpipe baseline comparisons assume an average petrol commuter vehicle outputting `0.25 kg CO₂` per kilometer.
+- Grid electricity footprints assume standard average emission loads of `0.5 kg CO₂` per kWh of power consumed.
+- sapling growth absorption rate is baseline-coded to absorb `22 kg CO₂` per year.
+

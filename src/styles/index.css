@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --glass-background: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.03);
+  }
+
+  .dark {
+    --glass-background: rgba(18, 18, 18, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  body {
+    @apply antialiased overflow-x-hidden;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  /* Premium Glassmorphism styling */
+  .glass-card {
+    background: var(--glass-background);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card-hover {
+    @apply transition-all duration-300 hover:translate-y-[-4px];
+    background: var(--glass-background);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card-hover:hover {
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 12px 40px 0 rgba(16, 185, 129, 0.08);
+  }
+
+  /* Custom Glows */
+  .glow-emerald {
+    box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.15);
+  }
+  
+  .glow-blue {
+    box-shadow: 0 0 50px -10px rgba(14, 165, 233, 0.15);
+  }
+
+  /* Custom Scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 dark:bg-zinc-800 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-300 dark:bg-zinc-700;
+  }
+}
+
+/* Page transitons / layouts helpers */
+.page-container {
+  @apply min-h-screen pt-20 px-4 md:px-8 max-w-7xl mx-auto pb-24 md:pb-8;
+}
+
+/* Earth Mesh Animation styles */
+.earth-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(16, 185, 129, 0.1) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+.dark .earth-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(16, 185, 129, 0.05) 1px, transparent 0);
+}
