@@ -9,6 +9,7 @@ interface StatCardProps {
   changeLabel?: string; // e.g. "vs last month"
   icon: React.ReactNode;
   isNegativeBetter?: boolean; // For carbon footprints, decreasing is better!
+  description?: string; // Explains environmental impact
 }
 
 export const StatCard: React.FC<StatCardProps> = ({
@@ -17,7 +18,8 @@ export const StatCard: React.FC<StatCardProps> = ({
   change,
   changeLabel = 'vs last month',
   icon,
-  isNegativeBetter = true
+  isNegativeBetter = true,
+  description
 }) => {
   const isPositive = change !== undefined && change > 0;
   const isNeutral = change === 0 || change === undefined;
@@ -67,6 +69,12 @@ export const StatCard: React.FC<StatCardProps> = ({
             {changeLabel}
           </span>
         </div>
+      )}
+
+      {description && (
+        <p className="mt-3 text-[10px] text-slate-400 dark:text-zinc-500 leading-relaxed font-sans border-t border-slate-100/50 dark:border-zinc-800/40 pt-2.5">
+          {description}
+        </p>
       )}
     </Card>
   );

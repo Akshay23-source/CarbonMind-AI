@@ -237,8 +237,8 @@ export const ExperienceMode: React.FC = () => {
     if (!ctx) return;
 
     let animationId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    const width = (canvas.width = window.innerWidth);
+    const height = (canvas.height = window.innerHeight);
 
     const confetti: any[] = [];
     const colors = ['#10B981', '#3B82F6', '#8B5CF6', '#F59E0B', '#EF4444'];

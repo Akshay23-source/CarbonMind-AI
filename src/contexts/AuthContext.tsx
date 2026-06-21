@@ -539,7 +539,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const resetPassword = async (email: string) => {
-    console.log(`Password reset email sent to: ${email}`);
+    // Password reset notification bypass in offline dev simulation mode
     return Promise.resolve();
   };
 
@@ -770,7 +770,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       timestamp: new Date().toISOString()
     };
 
-    let baseXp = 100;
+    const baseXp = 100;
     let bonusXp = 0;
     let bonusCoins = 0;
 
@@ -920,7 +920,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       timestamp: new Date().toISOString()
     };
 
-    let baseXp = 50;
+    const baseXp = 50;
     let bonusXp = 0;
     let bonusCoins = 10;
 

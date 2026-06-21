@@ -126,7 +126,7 @@ export const ReceiptScanner: React.FC = () => {
       const endpoint = `${API_BASE}/api/ai/scan-receipt`;
       const token = localStorage.getItem('carbonmind_token');
       
-      let payload: any = {};
+      const payload: any = {};
       
       // If client uploads custom image file, encode as base64
       if (previewUrl && mockSelection === undefined) {

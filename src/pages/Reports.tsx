@@ -173,6 +173,34 @@ export const Reports: React.FC = () => {
             <div class="alert-box">
               <strong>AI Climate Insights Notice:</strong> Prediction algorithms utilize weekly meal composition logging and travel distance trends to dynamically forecast and project ecological targets. Reducing red meat frequency and optimizing transit preserves up to 40% carbon offsets.
             </div>
+
+            <h2>🌿 Comprehensive Sustainability Benefits</h2>
+            <table class="metric-table" style="margin-bottom: 20px;">
+              <thead>
+                <tr>
+                  <th style="width: 30%;">Benefit Dimension</th>
+                  <th>Description & Carbon Correlation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>🌿 Environmental Impact</strong></td>
+                  <td>Reduces global greenhouse gases, stabilizing local heat indexes and safeguarding critical natural habitats.</td>
+                </tr>
+                <tr>
+                  <td><strong>💰 Economic Savings</strong></td>
+                  <td>Minimizes fossil fuel and power reliance, reducing monthly utility tariffs and personal transport expenses.</td>
+                </tr>
+                <tr>
+                  <td><strong>🍎 Health Benefits</strong></td>
+                  <td>Active biking/walking improves cardiovascular health, while a plant-rich diet reduces processed meat health risks.</td>
+                </tr>
+                <tr>
+                  <td><strong>👥 Community Benefits</strong></td>
+                  <td>Strengthens community climate action coordination via localized green map networks and shared ecological targets.</td>
+                </tr>
+              </tbody>
+            </table>
             
             <div class="footer-bar">
               © ${new Date().getFullYear()} CarbonMind AI Platform. All rights reserved. Confirmed environmental scorecard report sheet.

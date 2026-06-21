@@ -131,7 +131,7 @@ export const MealAnalyzer: React.FC = () => {
       const endpoint = `${API_BASE}/api/ai/analyze-meal`;
       const token = localStorage.getItem('carbonmind_token');
       
-      let payload: any = {};
+      const payload: any = {};
       
       if (mockKeyword) {
         payload.text = mockKeyword;

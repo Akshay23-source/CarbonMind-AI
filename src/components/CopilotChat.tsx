@@ -263,7 +263,7 @@ export const CopilotChat: React.FC<CopilotChatProps> = ({
     window.speechSynthesis.cancel(); // Stop active voices
     
     // Simple markdown cleaner
-    const cleanStr = phrase.replace(/[*#`_\-]/g, '').trim();
+    const cleanStr = phrase.replace(/[*#`_-]/g, '').trim();
     const utterance = new SpeechSynthesisUtterance(cleanStr);
     
     // Choose speech language

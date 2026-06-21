@@ -264,24 +264,28 @@ export const Dashboard: React.FC = () => {
           change={-12.8}
           changeLabel="vs regional baseline"
           icon={<Car className="h-5 w-5" />}
+          description="Your daily carbon emission footprint based on active commute and dietary logs."
         />
         <StatCard
           title="Weekly Carbon Saved"
           value={`${footprintMetrics.weeklySaved} kg`}
           isNegativeBetter={false}
           icon={<Leaf className="h-5 w-5" />}
+          description="Weekly greenhouse gas emissions avoided by choosing eco-friendly alternatives."
         />
         <StatCard
           title="Water Preserved"
           value={`${footprintMetrics.waterSaved} gal`}
           isNegativeBetter={false}
           icon={<Droplet className="h-5 w-5 text-blue-500" />}
+          description="Gallons of clean water preserved through plant-based meals and low-flow audits."
         />
         <StatCard
           title="Money Avoided"
           value={`$${footprintMetrics.moneySaved}`}
           isNegativeBetter={false}
           icon={<Wallet className="h-5 w-5 text-amber-500" />}
+          description="Financial savings from decreased utility draws and zero-emission transit swaps."
         />
       </div>
 
