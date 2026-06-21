@@ -9,6 +9,17 @@ import { auth as firebaseAuth } from '../config/db.js';
 export const requireAuth = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
+
+    // Dynamic Mock Bypass in Development Environment
+    if (process.env.NODE_ENV === 'development' && (!authHeader || !authHeader.startsWith('Bearer '))) {
+      req.user = {
+        uid: 'usr_mock_id',
+        email: 'mock.user@carbonmind.ai',
+        role: 'user'
+      };
+      return next();
+    }
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ error: 'Authorization header is missing or malformed' });
     }
